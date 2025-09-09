@@ -161,15 +161,14 @@
 
         <!--right start-->
         <div class="wrap_right fr">
-
-
-            <script src="/javascript/authorinfo.js?uid=8" type="text/javascript"></script>
             <!--作者专栏s-->
-            <div class="wrap_inner author_info mb20">
+            <script src="/javascript/authorinfo.js" type="text/javascript"></script>
+            <div id="authorPanel" class="wrap_inner author_info mb20" style="display: none;">
 
                 <div class="author_head cf">
-                    <a href="javascript:void(0);" class="head"><img src="/images/author_head.png" alt="作者头像"
-                                                                    id="authorLogoImg"/></a>
+                    <a href="javascript:void(0);" class="head">
+                        <img src="/images/author_head.png" alt="作者头像" id="authorLogoImg"/>
+                    </a>
                     <div class="msg">
                         <span class="icon_qyzz">签约作家</span>
                         <h4><a th:href="'javascript:searchByK(\''+${book.authorName}+'\')'"
@@ -183,17 +182,15 @@
                     </div>
                 </div>
                 <!--如果作者没有其他作品就下方代码整个不显示-->
-
-
             </div>
-            <!--作者专栏e-->
             <script type="text/javascript">
-                var authorUId = 8;
-                if (authorUId == 0) {
-                    $("#authorPanel").hide();
-                } else {
-                }
+                getByPenName("${book.authorName}", (author) => {
+                    if (author.id > 0) {
+                        $("#authorPanel").show();
+                    }
+                });
             </script>
+            <!--作者专栏e-->
 
             <div id="RelateBookOther" class="wrap_inner wrap_right_cont mb20">
                 <div class="title cf">

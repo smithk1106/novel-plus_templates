@@ -1,11 +1,10 @@
 function getByPenName(authorName, callback) {
-    var data = { penName: authorName};
     $.ajax({
         url: "/author/getByPenName",
         type: "get",
         dataType: 'json',
-        async: false,
-        data: data,
+        async: true,
+        data: { penName: authorName },
         cache: false,
         success: function (result) {
             if (result.data) {
@@ -14,5 +13,5 @@ function getByPenName(authorName, callback) {
                 console.log("[E]Failed to get author data.", result);
             }
         }
-    });;
+    });
 }

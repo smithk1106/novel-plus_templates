@@ -73,6 +73,8 @@
 <div th:replace="common/js :: js"></div>
 
 <script type="text/javascript">
+    let oldRankType = -1;
+
     $("#rankType a").click(function () {
         $("#rankType .on").removeClass("on");
         $(this).addClass("on");
@@ -87,6 +89,30 @@
     listRank(rankType);
 
     function listRank(rankType){
+        if (oldRankType == rankType) {
+            return;
+        }
+        oldRankType = rankType;
+
+        switch (rankType) {
+            case 0 : {
+                $("#rankName").html("点击榜");
+                break;
+            }
+            case 1 : {
+                $("#rankName").html("新书榜");
+                break;
+            }
+            case 2 : {
+                $("#rankName").html("更新榜");
+                break;
+            }
+            case 3 : {
+                $("#rankName").html("评论榜");
+                break;
+            }
+        }
+
         $.ajax({
             type: "get",
             url: "/book/listRank",
@@ -118,33 +144,13 @@
                     layer.alert(data.msg);
                 }
 
+                let newUrl = window.location.pathname + "?type=" + rankType;
+                window.history.pushState({"rankType":rankType, "bookList":bookRankListHtml, "rankName":$("#rankName").html()}, "", newUrl);
             },
             error: function () {
                 layer.alert('网络异常');
             }
-        })
-        switch (rankType) {
-            case 0 : {
-                $("#rankName").html("点击榜");
-                break;
-            }
-            case 1 : {
-                $("#rankName").html("新书榜");
-                break;
-            }
-            case 2 : {
-                $("#rankName").html("更新榜");
-                break;
-            }
-            case 3 : {
-                $("#rankName").html("评论榜");
-                break;
-            }
-
-        }
-        
-        let newUrl = window.location.pathname + "?type=" + rankType;
-        window.history.pushState({"rankType":rankType, "bookList":$("#bookRankList").html(), "rankName":$("#rankName").html()}, "", newUrl);
+        });
     }
 
     window.addEventListener("popstate", (e) => {

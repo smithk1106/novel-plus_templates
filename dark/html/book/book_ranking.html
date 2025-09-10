@@ -142,8 +142,18 @@
             }
 
         }
-
+        
+        let newUrl = window.location.pathname + "?type=" + rankType;
+        window.history.pushState({"rankType":rankType, "bookList":$("#bookRankList").html(), "rankName":$("#rankName").html()}, "", newUrl);
     }
+
+    window.addEventListener("popstate", (e) => {
+        if (e.state && e.state.rankType) {
+            $("#bookRankList").html(e.state.bookList)
+            $("#rankName").html(e.state.rankName);
+            $("#rankType a").eq(e.state.rankType).click();
+        }
+    });
 </script>
 
 </body>
